@@ -4,7 +4,11 @@ red=$'\e[1;31m'
 grn=$'\e[1;32m'
 end=$'\e[0m'
 
-account='training-staging'
+: "${STAGING_ACCOUNT:?Set STAGING_ACCOUNT environment variable}"
+: "${STAGING_GHE_HOST:?Set STAGING_GHE_HOST environment variable}"
+: "${STAGING_PAGES_HOST:?Set STAGING_PAGES_HOST environment variable}"
+
+account="$STAGING_ACCOUNT"
 
 if [ "$1" = "" ]
 then
@@ -15,7 +19,7 @@ fi
 
 # Build the site
 #
-# Generate the Jekyll site with an alterate baseurl for the intenral-only
+# Generate the Jekyll site with an alternate baseurl for the internal-only
 # staging site, but don't start a local server.
 printf "\n${grn}# Building site...\n--------------------------------------------------${end}\n"
 DISABLE_WHITELIST=1 bundle exec jekyll build --baseurl "/${account}/${repo}"
@@ -28,7 +32,7 @@ DISABLE_WHITELIST=1 bundle exec jekyll build --baseurl "/${account}/${repo}"
 # 4. Add all our files
 # 5. Write a generic commit message
 printf "\n${grn}# Creating a temp Git repo...\n--------------------------------------------------${end}\n"
-cd _site && git init && git remote add staging https://ghe.io/${account}/${repo}.git && git add . && git commit -m "Staging latest changes"
+cd _site && git init && git remote add staging "https://${STAGING_GHE_HOST}/${account}/${repo}.git" && git add . && git commit -m "Staging latest changes"
 
 # Push the site
 #
@@ -39,4 +43,4 @@ git push staging master:gh-pages --force && git remote rm staging
 
 # Celebrate and open the staging site
 printf "\n${grn}# Success!${end}\n"
-open https://pages.ghe.io/${account}/${repo}/
+open "https://${STAGING_PAGES_HOST}/${account}/${repo}/"

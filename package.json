@@ -1,0 +1,9 @@
+{
+  "name": "github-slideshow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A fun activity for learning Git and GitHub",
+  "dependencies": {
+    "reveal.js": "^5.2.1"
+  }
+}
