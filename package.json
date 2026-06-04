@@ -1,0 +1,13 @@
+{
+  "name": "github-slideshow",
+  "private": true,
+  "scripts": {
+    "test": "node --test test/config/config.test.mjs test/templates/templates.test.mjs && bats test/scripts/",
+    "test:config": "node --test test/config/config.test.mjs",
+    "test:templates": "node --test test/templates/templates.test.mjs",
+    "test:scripts": "bats test/scripts/"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.2.0"
+  }
+}
