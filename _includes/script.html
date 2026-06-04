@@ -2,16 +2,26 @@
 <script src="{{ site.baseurl }}/{{ reveal_path }}/js/reveal.js"></script>
 
 		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				hash: true,
-				dependencies: [
-					{ src: '{{ reveal_path }}/plugin/markdown/marked.js' },
-					{ src: '{{ reveal_path }}/plugin/markdown/markdown.js' },
-					{ src: '{{ reveal_path }}/plugin/highlight/highlight.js' },
-					{ src: '{{ reveal_path }}/plugin/notes/notes.js', async: true }
-				]
-			});
+			(function() {
+				if (typeof Reveal === 'undefined') {
+					console.error('reveal.js failed to load — the presentation cannot start.');
+					document.body.innerHTML = '<p style="padding:2rem;color:red;">Error: reveal.js failed to load. Please check that all assets are available.</p>';
+					return;
+				}
+
+				// More info about config & dependencies:
+				// - https://github.com/hakimel/reveal.js#configuration
+				// - https://github.com/hakimel/reveal.js#dependencies
+				Reveal.initialize({
+					hash: true,
+					dependencies: [
+						{ src: '{{ reveal_path }}/plugin/markdown/marked.js' },
+						{ src: '{{ reveal_path }}/plugin/markdown/markdown.js' },
+						{ src: '{{ reveal_path }}/plugin/highlight/highlight.js' },
+						{ src: '{{ reveal_path }}/plugin/notes/notes.js', async: true }
+					]
+				}).catch(function(error) {
+					console.error('Reveal.initialize failed:', error);
+				});
+			})();
 		</script>
