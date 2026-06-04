@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html class="{% if site.solarized.theme %}{{site.solarized.theme}}{% else %}dark{% endif %}">
-<head>
-  {% include head.html %}
-</head>
-<body>
-	<div class="reveal">
-		<div class="slides">
-			{{ content }}
-		</div>
+---
+layout: base
+---
+<div class="reveal">
+	<div class="slides">
+		{{ content }}
 	</div>
-	{% include script.html %}
-</body>
-</html>
-
+</div>
+{% include script.html %}

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+. "$(dirname "$0")/_common.sh"
 
 bundle exec jekyll build --baseurl "."
 htmlproofer _site/index.html --empty-alt-ignore
