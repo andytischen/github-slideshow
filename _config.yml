@@ -16,6 +16,9 @@ kramdown:
 plugins:
   - jemoji
 
+## Path to reveal.js assets (used by includes and layouts)
+reveal_path: "node_modules/reveal.js"
+
 ## personalize your slide show
 title:       github-slideshow
 author:      GitHubTeacher

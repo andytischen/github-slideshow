@@ -1,5 +1,5 @@
 #!/bin/sh
 
-set -e
+. "$(dirname "$0")/_common.sh"
 
 bundle exec jekyll serve "$@"

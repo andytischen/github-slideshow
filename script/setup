@@ -1,8 +1,6 @@
 #!/bin/sh
 
-set -e
-
-cd "$(dirname "$0")/.."
+. "$(dirname "$0")/_common.sh"
 
 if [ -f "Brewfile" ] && [ "$(uname -s)" = "Darwin" ]; then
   brew bundle check >/dev/null 2>&1  || {
