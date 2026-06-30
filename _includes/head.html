@@ -14,10 +14,20 @@
 
 <!-- Printing and PDF exports -->
 <script>
-	var link = document.createElement( 'link' );
-	link.rel = 'stylesheet';
-	link.type = 'text/css';
-	var revealPath = '{{ site.baseurl }}/{{ reveal_path }}';
-	link.href = window.location.search.match( /print-pdf/gi ) ? revealPath + '/css/print/pdf.css' : revealPath + '/css/print/paper.css';
-	document.getElementsByTagName( 'head' )[0].appendChild( link );
+	(function() {
+		var link = document.createElement( 'link' );
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		var revealPath = '{{ site.baseurl }}/{{ reveal_path }}';
+		link.href = window.location.search.match( /print-pdf/gi ) ? revealPath + '/css/print/pdf.css' : revealPath + '/css/print/paper.css';
+		link.onerror = function() {
+			console.error('Failed to load print stylesheet: ' + link.href);
+		};
+		var head = document.getElementsByTagName( 'head' )[0];
+		if (head) {
+			head.appendChild( link );
+		} else {
+			console.error('No <head> element found — cannot inject print stylesheet.');
+		}
+	})();
 </script>

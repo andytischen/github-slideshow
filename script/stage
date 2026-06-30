@@ -2,6 +2,15 @@
 
 . "$(dirname "$0")/_common.sh"
 
+cleanup() {
+  exit_code=$?
+  if [ $exit_code -ne 0 ]; then
+    printf "\n${RED}# Error: script exited with status %s${RESET}\n" "$exit_code" >&2
+  fi
+  exit $exit_code
+}
+trap cleanup EXIT
+
 account='training-staging'
 
 if [ "$1" = "" ]
@@ -26,14 +35,19 @@ DISABLE_WHITELIST=1 bundle exec jekyll build --baseurl "/${account}/${repo}"
 # 4. Add all our files
 # 5. Write a generic commit message
 status "Creating a temp Git repo..."
-cd _site && git init && git remote add staging https://ghe.io/${account}/${repo}.git && git add . && git commit -m "Staging latest changes"
+cd _site
+git init
+git remote add staging "https://ghe.io/${account}/${repo}.git"
+git add .
+git commit -m "Staging latest changes"
 
 # Push the site
 #
 # Push the new `_site` temporary repo to our remote staging repo, then remove
 # the remote again to do it all over again afterwards.
 status "Publishing..."
-git push staging master:gh-pages --force && git remote rm staging
+git push staging master:gh-pages --force
+git remote rm staging
 
 # Celebrate and open the staging site
 printf "\n${GREEN}# Success!${RESET}\n"
